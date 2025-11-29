@@ -11,7 +11,7 @@ class AdminAuthController extends Controller
 {
     public function showLogin()
     {
-        return view('admin.login');
+        return view('login');
     }
 
     public function login(Request $request)
@@ -40,7 +40,7 @@ class AdminAuthController extends Controller
     public function logout()
     {
         auth()->logout();
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 }
 
