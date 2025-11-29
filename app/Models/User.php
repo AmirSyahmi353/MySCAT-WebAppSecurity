@@ -35,11 +35,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $attributes = [
-        'role' => 'patient',
-        'status' => 'active',
-    ];
-
     /**
      * Get the attributes that should be cast.
      *
