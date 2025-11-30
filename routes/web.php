@@ -15,7 +15,9 @@ use App\Http\Controllers\FoodDiaryController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\DietitianController as AdminDietitianController;
 
-
+use App\Http\Controllers\Dietitian\DashboardController;
+use App\Http\Controllers\Dietitian\DietitianAuthController;
+use App\Http\Controllers\Dietitian\ResultController as DietitianResultController;
 /*
 |--------------------------------------------------------------------------
 | PUBLIC ROUTES
@@ -137,22 +139,14 @@ Route::middleware('auth')->prefix('food-diary')->name('food-diary.')->group(func
 });
 
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN AUTH (SEPARATE LOGIN)
-|--------------------------------------------------------------------------
-*/
-
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    Route::get('/login', [AdminAuthController::class, 'showLogin'])
-        ->name('login');
+    // Admin login views & processing
+    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
 
-    Route::post('/login', [AdminAuthController::class, 'login'])
-        ->name('login.submit');
-
-    Route::get('/logout', [AdminAuthController::class, 'logout'])
-        ->name('logout');
+    // Admin logout
+    Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });
 
 
@@ -161,50 +155,65 @@ Route::prefix('admin')->name('admin.')->group(function () {
 | ADMIN PROTECTED ROUTES
 |--------------------------------------------------------------------------
 */
+Route::middleware(['auth'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+        // Admin Dashboard
+        Route::get('/', [DashboardController::class, 'index'])
+            ->name('dashboard');
 
-    // Admin dashboard
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+        // Manage dietitians (admin only)
+        Route::resource('dietitians', DietitianController::class);
+    });
 
-    // Dietitian management
-    Route::resource('dietitians', AdminDietitianController::class);
-});
+
+
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN AUTH (SEPARATE LOGIN)
+| DIETITIAN AUTH (LOGIN/LOGOUT)
 |--------------------------------------------------------------------------
 */
 
 Route::prefix('dietitian')->name('dietitian.')->group(function () {
 
-    Route::get('/login', [DietitianAuthController::class, 'showLogin'])
-        ->name('login');
+    // Dietitian login
+    Route::get('/login', [DietitianAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [DietitianAuthController::class, 'login'])->name('login.submit');
 
-    Route::post('/login', [DietitianAuthController::class, 'login'])
-        ->name('login.submit');
-
-    Route::get('/logout', [DietitianAuthController::class, 'logout'])
-        ->name('logout');
+    // Dietitian logout
+    Route::get('/logout', [DietitianAuthController::class, 'logout'])->name('logout');
 });
+
 
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN PROTECTED ROUTES
+| DIETITIAN PROTECTED ROUTES
 |--------------------------------------------------------------------------
 */
+Route::middleware(['auth'])
+    ->prefix('dietitian')
+    ->name('dietitian.')
+    ->group(function () {
 
-Route::middleware('auth')->prefix('dietitian')->name('dietitian.')->group(function () {
+        // Dietitian dashboard (should NOT use admin dashboard)
+        Route::get('/', [DashboardController::class, 'index'])
+            ->name('dashboard');
 
-    // Admin dashboard
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+        // Add more dietitian-only features here later
+        // Example:
+        // Route::get('/patients', [DietitianPatientController::class, 'index'])->name('patients');
 
-    // Dietitian management
-    Route::resource('dietitians', AdminDietitianController::class);
-});
+         Route::get('/results', [DietitianResultController::class, 'index'])
+            ->name('results.index');
+
+        Route::get('/results/{id}', [DietitianResultController::class, 'show'])
+            ->name('results.show');
+    });
+  
+       
+
+     

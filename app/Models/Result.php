@@ -20,4 +20,9 @@ class Result extends Model
     protected $casts = [
         'answers' => 'array', // ✅ so answers is stored properly
     ];
+    public function user()
+    {
+    return $this->belongsTo(User::class, 'user_id', '_id');
+    }
+
 }

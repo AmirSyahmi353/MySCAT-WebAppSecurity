@@ -24,27 +24,43 @@
 </div>
 
   {{-- 📊 Summary Cards --}}
-    <div class="row g-4 mb-4">
-        {{-- @php
-            $stats = [
-                ['label' => 'Total Patients', 'value' => $totalPatients, 'icon' => 'fa-users', 'class' => 'border-blue'],
-                ['label' => 'Normal', 'value' => $normalCount, 'icon' => 'fa-smile', 'class' => 'border-green'],
-                ['label' => 'High Craving', 'value' => $highCount, 'icon' => 'fa-exclamation-triangle', 'class' => 'border-yellow'],
-            ];
-        @endphp --}}
+<div class="row g-4 mb-4">
 
-        {{-- @foreach ($stats as $s)
-        <div class="col-lg-4 col-md-6">
-            <div class="stat-card {{ $s['class'] }} d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="stat-title">{{ $s['label'] }}</div>
-                    <div class="stat-value">{{ $s['value'] }}</div>
-                </div>
-                <i class="fas {{ $s['icon'] }} stat-icon"></i>
+    {{-- Total Patients --}}
+    <div class="col-lg-4 col-md-6">
+        <div class="stat-card border-blue d-flex justify-content-between align-items-center">
+            <div>
+                <div class="stat-title">Total Patients</div>
+                <div class="stat-value">{{ $totalPatients ?? 0 }}</div>
             </div>
+            <i class="fas fa-users stat-icon"></i>
         </div>
-        @endforeach --}}
     </div>
+
+    {{-- Normal Craving --}}
+    <div class="col-lg-4 col-md-6">
+        <div class="stat-card border-green d-flex justify-content-between align-items-center">
+            <div>
+                <div class="stat-title">Normal Craving</div>
+                <div class="stat-value">{{ $normalCount ?? 0 }}</div>
+            </div>
+            <i class="fas fa-smile stat-icon"></i>
+        </div>
+    </div>
+
+    {{-- High Craving --}}
+    <div class="col-lg-4 col-md-6">
+        <div class="stat-card border-yellow d-flex justify-content-between align-items-center">
+            <div>
+                <div class="stat-title">High Craving</div>
+                <div class="stat-value">{{ $highCount ?? 0 }}</div>
+            </div>
+            <i class="fas fa-exclamation-triangle stat-icon"></i>
+        </div>
+    </div>
+
+</div>
+
 
 {{-- CSS --}}
 <style>
