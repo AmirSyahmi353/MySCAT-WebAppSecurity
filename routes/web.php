@@ -172,3 +172,39 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // Dietitian management
     Route::resource('dietitians', AdminDietitianController::class);
 });
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN AUTH (SEPARATE LOGIN)
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('dietitian')->name('dietitian.')->group(function () {
+
+    Route::get('/login', [DietitianAuthController::class, 'showLogin'])
+        ->name('login');
+
+    Route::post('/login', [DietitianAuthController::class, 'login'])
+        ->name('login.submit');
+
+    Route::get('/logout', [DietitianAuthController::class, 'logout'])
+        ->name('logout');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN PROTECTED ROUTES
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->prefix('dietitian')->name('dietitian.')->group(function () {
+
+    // Admin dashboard
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+
+    // Dietitian management
+    Route::resource('dietitians', AdminDietitianController::class);
+});
