@@ -4,87 +4,74 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class DietitianController extends Controller
 {
-    // LIST all dietitians
     public function index()
     {
-        $dietitians = User::where('role', 'dietitian')->get();
-        return view('admin.dietitians.index', compact('dietitians'));
+        $dietitians = User::where('role', 'dietitian')->orderBy('name')->get();
+        return view('admin.dietitianindex', compact('dietitians'));
     }
 
-    // SHOW create form
     public function create()
     {
-        return view('admin.dietitians.create');
+        return view('admin.dietitiancreate');
     }
 
-    // STORE new dietitian
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+            'role' => 'required',
+            'status' => 'required'
         ]);
+        // tunjuk validation kat depan
 
         User::create([
-            'name'     => $validated['name'],
-            'email'    => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'role'     => 'dietitian',
-            'status'   => 'active',
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'role'     => $request->role,
+            'status'   => $request->status,
         ]);
 
-        return redirect()->route('admin.dietitians.index')
-                         ->with('success', 'Dietitian registered!');
+        return redirect()->route('admin.dietitianindex')
+                         ->with('success', 'Dietitian registered successfully.');
     }
 
-    // SHOW edit form
     public function edit($id)
     {
         $dietitian = User::findOrFail($id);
         return view('admin.dietitians.edit', compact('dietitian'));
     }
 
-    // UPDATE dietitian
     public function update(Request $request, $id)
     {
         $dietitian = User::findOrFail($id);
 
-        $validated = $request->validate([
-            'name'  => 'required',
-            'email' => 'required|email|unique:users,email,' . $dietitian->id,
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => "required|email|unique:users,email,{$id},_id",
         ]);
 
-        $dietitian->update($validated);
+        $dietitian->update([
+            'name'  => $request->name,
+            'email' => $request->email,
+        ]);
 
-        return redirect()->route('admin.dietitians.index')
-                         ->with('success', 'Dietitian updated!');
+        return redirect()->route('admin.dietitianindex')
+                         ->with('success', 'Dietitian updated successfully.');
     }
 
-    // DELETE dietitian
     public function destroy($id)
     {
-        User::destroy($id);
+        User::findOrFail($id)->delete();
 
-        return back()->with('success', 'Dietitian deleted.');
-    }
-
-    // SUSPEND or ACTIVATE dietitian
-    public function toggleStatus($id)
-    {
-        $dietitian = User::findOrFail($id);
-
-        $dietitian->status = $dietitian->status === 'active'
-                             ? 'suspended'
-                             : 'active';
-
-        $dietitian->save();
-
-        return back()->with('success', 'Status updated.');
+        return redirect()->route('admin.dietitianindex')
+                         ->with('success', 'Dietitian removed.');
     }
 }

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\PatientController;
+
 // ---------------- AUTH CONTROLLERS ----------------
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -120,23 +122,37 @@ Route::middleware('auth')->get('/result', [QuestionnaireController::class, 'show
 
 Route::middleware('auth')->prefix('food-diary')->name('food-diary.')->group(function () {
 
-    Route::get('/info', [FoodDiaryController::class, 'info'])->name('info');
+    // Food diary info page
+    Route::get('/info', [FoodDiaryController::class, 'info'])
+        ->name('info');
 
-    Route::get('/day', [FoodDiaryController::class, 'day'])->name('day');
+    // Main 3-day diary page
+    Route::get('/day', [FoodDiaryController::class, 'day'])
+        ->name('day');
 
+    // Add meal item
     Route::post('/day/{day}/add-item', [FoodDiaryController::class, 'addItem'])
         ->where('day', '[1-3]')
         ->name('day.addItem');
 
+    // Delete meal item
     Route::delete('/day/{day}/{index}/delete', [FoodDiaryController::class, 'deleteItem'])
         ->where(['day' => '[1-3]', 'index' => '[0-9]+'])
         ->name('day.delete');
 
+    // Final submit of diary
     Route::post('/submit-final', [FoodDiaryController::class, 'submitFinal'])
         ->name('submitFinal');
 
-    Route::get('/view', [FoodDiaryController::class, 'view'])->name('view');
+    // View final diary summary
+    Route::get('/view', [FoodDiaryController::class, 'view'])
+        ->name('view');
+
+    // Alias: allow index to behave same as view
+    Route::get('/', [FoodDiaryController::class, 'view'])
+        ->name('index');
 });
+
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -160,15 +176,44 @@ Route::middleware(['auth'])
     ->name('admin.')
     ->group(function () {
 
-        // Admin Dashboard
-        Route::get('/', [DashboardController::class, 'index'])
-            ->name('dashboard');
+        // Dashboard
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        // Manage dietitians (admin only)
-        Route::resource('dietitians', DietitianController::class);
+        // Patients
+        Route::get('/patients', [PatientController::class, 'index'])->name('patientindex');
+        Route::get('/patients/{id}', [PatientController::class, 'show'])->name('patientshow');
+        Route::get('/patient/{id}/profile', [PatientController::class, 'showProfile'])->name('patientprofile');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Dietitians CRUD (Only 1 index route name!)
+        |--------------------------------------------------------------------------
+        */
+
+        // INDEX (LIST PAGE)
+        Route::get('/dietitians', [AdminDietitianController::class, 'index'])
+            ->name('dietitianindex');
+
+        // CREATE FORM
+        Route::get('/dietitians/create', [AdminDietitianController::class, 'create'])
+            ->name('dietitians.create');
+
+        // STORE ACTION
+        Route::post('/dietitians', [AdminDietitianController::class, 'store'])
+            ->name('dietitians.store');
+
+        // EDIT FORM
+        Route::get('/dietitians/{id}/edit', [AdminDietitianController::class, 'edit'])
+            ->name('dietitians.edit');
+
+        // UPDATE ACTION
+        Route::put('/dietitians/{id}', [AdminDietitianController::class, 'update'])
+            ->name('dietitians.update');
+
+        // DELETE
+        Route::delete('/dietitians/{id}', [AdminDietitianController::class, 'destroy'])
+            ->name('dietitians.destroy');
     });
-
-
 
 
 /*
@@ -177,15 +222,15 @@ Route::middleware(['auth'])
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('dietitian')->name('dietitian.')->group(function () {
+// Route::prefix('dietitian')->name('dietitian.')->group(function () {
 
-    // Dietitian login
-    Route::get('/login', [DietitianAuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [DietitianAuthController::class, 'login'])->name('login.submit');
+//     // Dietitian login
+//     Route::get('/login', [DietitianAuthController::class, 'showLogin'])->name('login');
+//     Route::post('/login', [DietitianAuthController::class, 'login'])->name('login.submit');
 
-    // Dietitian logout
-    Route::get('/logout', [DietitianAuthController::class, 'logout'])->name('logout');
-});
+//     // Dietitian logout
+//     Route::get('/logout', [DietitianAuthController::class, 'logout'])->name('logout');
+// });
 
 
 
@@ -213,7 +258,3 @@ Route::middleware(['auth'])
         Route::get('/results/{id}', [DietitianResultController::class, 'show'])
             ->name('results.show');
     });
-  
-       
-
-     

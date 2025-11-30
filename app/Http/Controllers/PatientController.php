@@ -74,4 +74,16 @@ class PatientController extends Controller
             'result'
         ));
     }
+
+    public function showProfile($id)
+    {
+        $patient = User::where('_id', $id)->where('role', 'patient')->firstOrFail();
+
+        $demographic = Demographic::where('user_id', $id)->firstOrFail();
+
+        return view('admin.patientprofile', [
+            'demographic' => $demographic,
+            'readonly' => true   // 🔥 tells Blade to hide edit buttons
+        ]);
+    }
 }

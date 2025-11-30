@@ -14,7 +14,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-
+@php
+    $role = auth()->check() ? auth()->user()->role : null;
+@endphp
 <body>
 
 <!-- MOBILE TOP NAVBAR -->
@@ -23,7 +25,7 @@
         <i class="bi bi-list fs-3"></i>
     </button>
     <span class="navbar-brand mb-0 h1 text-center">MySCAT</span>
-</nav> 
+</nav>
 
 <!-- SIDEBAR -->
 <div id="sidebar" class="sidebar d-flex flex-column p-3">
@@ -49,7 +51,24 @@
         </a>
     </li>
 
+    {{-- ADMIN ONLY SECTION --}}
+
+    @if ($role ==='admin')
+        <li>
+            <a href="{{ route('admin.dietitianindex') }}" class="nav-link">
+                <i class="bi bi-person-badge-fill me-2"></i> List of User
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin.dietitians.create') }}" class="nav-link">
+                <i class="bi bi-person-badge-fill me-2"></i> Register User
+            </a>
+        </li>
+    @endif
+
+
 </ul>
+
 
 
     <!-- Logout Button -->
@@ -60,7 +79,7 @@
         </a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> @csrf </form>
-    </div> 
+    </div>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -155,4 +174,6 @@ document.getElementById('sidebarToggle').addEventListener('click', function () {
 </script>
 
 </body>
+
+
 </html>

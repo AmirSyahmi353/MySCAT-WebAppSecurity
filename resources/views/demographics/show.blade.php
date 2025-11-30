@@ -142,9 +142,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         <!-- Buttons -->
         <div class="text-center mt-5">
-            <a href="{{ route('demographics.edit') }}" class="btn-submit">
-                Edit Profile
-            </a>
+            @if(!isset($readonly) || !$readonly)
+                <a href="{{ route('demographics.edit') }}" class="btn-submit">
+                    Edit Profile
+                </a>
+            @endif
+
             <a href="{{ route('home') }}" class="btn-back-home mt-2">
                 Back to Home
             </a>

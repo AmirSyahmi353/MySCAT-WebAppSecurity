@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Dietitian;
+// namespace App\Http\Controllers\Dietitian;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+// use App\Http\Controllers\Controller;
+// use Illuminate\Http\Request;
+// use App\Models\User;
+// use Illuminate\Support\Facades\Hash;
 
 // class DietitianAuthController extends Controller
 // {
