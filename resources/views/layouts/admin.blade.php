@@ -29,27 +29,28 @@
 <div id="sidebar" class="sidebar d-flex flex-column p-3">
 
     <h4 class="sidebar-logo mb-4">
-        <a href="/dashboard" class="sidebar-logo-text text-decoration-none">
+        <a href="/admin" class="sidebar-logo-text text-decoration-none">
             <i class="bi bi-clipboard-heart-fill me-2"></i> MySCAT
         </a>
     </h4>
 
     <!-- Menu -->
-    <ul class="nav nav-pills flex-column mb-auto">
+<ul class="nav nav-pills flex-column mb-auto">
 
-        <li class="nav-item">
-            <a href="/dashboard" class="nav-link">
-                <i class="bi bi-house-door-fill me-2"></i> Dashboard
-            </a>
-        </li>
+    <li class="nav-item">
+        <a href="{{ route('admin.dashboard') }}" class="nav-link">
+            <i class="bi bi-house-door-fill me-2"></i> Dashboard
+        </a>
+    </li>
 
-        <li>
-            <a href="/patients" class="nav-link">
-                <i class="bi bi-people-fill me-2"></i> Patients
-            </a>
-        </li>
+    <li>
+        <a href="{{ route('admin.patientindex') }}" class="nav-link">
+            <i class="bi bi-people-fill me-2"></i> Patients
+        </a>
+    </li>
 
-    </ul>
+</ul>
+
 
     <!-- Logout Button -->
     <div class="mt-auto pt-4">

@@ -4,58 +4,47 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Demographic;
-use Illuminate\Support\Str;
+use App\Models\User;
 
 class DemographicSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        Demographic::create([
-            'user_id'     => '692b053e14293b11ff09f35e',  // Replace with real existing user_id (Mongo ObjectId)
-            'full_name'   => 'Test Patient',
-            'age'         => 25,
-            'gender'      => 'Female',
-            'race'        => 'Malay',
-            'postcode'    => '53100',
-            'occupation'  => 'Student',
-            'education'   => 'Bachelor Degree',
-            'email'       => 'patient@example.com',
-            'height_cm'   => 160,
-            'weight_kg'   => 55,
-            'income'      => 'Below RM2000',
-        ]);
+        // Fetch ALL patient users (you added 5 in UserSeeder)
+        $patients = User::where('role', 'patient')->get();
 
-        Demographic::create([
-            'user_id'     => '677123abc123456789000002', 
-            'full_name'   => 'John Doe',
-            'age'         => 30,
-            'gender'      => 'Male',
-            'race'        => 'Chinese',
-            'postcode'    => '43000',
-            'occupation'  => 'Engineer',
-            'education'   => 'Master Degree',
-            'email'       => 'john@example.com',
-            'height_cm'   => 170,
-            'weight_kg'   => 70,
-            'income'      => 'RM2000 - RM4000',
-        ]);
+        if ($patients->count() < 1) {
+            echo "❌ No patient users found. Please run UserSeeder first.\n";
+            return;
+        }
 
-        Demographic::create([
-            'user_id'     => '677123abc123456789000003',
-            'full_name'   => 'Jane Doe',
-            'age'         => 28,
-            'gender'      => 'Female',
-            'race'        => 'Indian',
-            'postcode'    => '41000',
-            'occupation'  => 'Nurse',
-            'education'   => 'Diploma',
-            'email'       => 'jane@example.com',
-            'height_cm'   => 165,
-            'weight_kg'   => 60,
-            'income'      => 'RM4000 - RM6000',
-        ]);
+        // Predefined demographic field sets
+        $races       = ['Malay', 'Chinese', 'Indian'];
+        $occupations = ['Student', 'Engineer', 'Nurse', 'Teacher', 'Technician'];
+        $educations  = ['Diploma', 'Bachelor Degree', 'Master Degree'];
+        $income      = ['Below RM2000', 'RM2000 - RM4000', 'RM4000 - RM6000'];
+
+        foreach ($patients as $i => $patient) {
+
+            // Create or update demographic record for each patient
+            Demographic::updateOrCreate(
+                ['user_id' => $patient->_id],   // Prevent duplicate demographic records
+                [
+                    'full_name'  => $patient->name,
+                    'age'        => rand(20, 50),
+                    'gender'     => $i % 2 === 0 ? 'Female' : 'Male',
+                    'race'       => $races[$i % count($races)],
+                    'postcode'   => (string) rand(40000, 60000),
+                    'occupation' => $occupations[$i % count($occupations)],
+                    'education'  => $educations[$i % count($educations)],
+                    'email'      => $patient->email,
+                    'height_cm'  => rand(150, 180),
+                    'weight_kg'  => rand(45, 85),
+                    'income'     => $income[$i % count($income)],
+                ]
+            );
+        }
+
+        echo "✅ DemographicSeeder completed for {$patients->count()} patient users.\n";
     }
 }

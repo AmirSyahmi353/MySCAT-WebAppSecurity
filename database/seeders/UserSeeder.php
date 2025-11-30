@@ -8,36 +8,55 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Admin user
-        User::create([
-            'name'     => 'Admin',
-            'email'    => 'admin@example.com',
-            'password' => Hash::make('password'),
-            'role'     => 'admin',
-            'status'   => 'active',
-        ]);
+        /** ---------------------
+         *  ADMIN USER
+         * --------------------- */
+        User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name'     => 'Admin',
+                'password' => Hash::make('password'),
+                'role'     => 'admin',
+                'status'   => 'active',
+            ]
+        );
 
-        // Dietitian user
-        User::create([
-            'name'     => 'Dietitian',
-            'email'    => 'dietitian@example.com',
-            'password' => Hash::make('password'),
-            'role'     => 'dietitian',
-            'status'   => 'active',
-        ]);
+        /** ---------------------
+         *  DIETITIAN USER
+         * --------------------- */
+        User::updateOrCreate(
+            ['email' => 'dietitian@example.com'],
+            [
+                'name'     => 'Dietitian',
+                'password' => Hash::make('password'),
+                'role'     => 'dietitian',
+                'status'   => 'active',
+            ]
+        );
 
-        // Patient user
-        User::create([
-            'name'     => 'Patient',
-            'email'    => 'patient@example.com',
-            'password' => Hash::make('password'),
-            'role'     => 'patient',
-            'status'   => 'active',
-        ]);
+        /** ---------------------
+         *  5 PATIENT USERS
+         * --------------------- */
+        $patients = [
+            ['name' => 'Patient One',   'email' => 'patient1@example.com'],
+            ['name' => 'Patient Two',   'email' => 'patient2@example.com'],
+            ['name' => 'Patient Three', 'email' => 'patient3@example.com'],
+            ['name' => 'Patient Four',  'email' => 'patient4@example.com'],
+            ['name' => 'Patient Five',  'email' => 'patient5@example.com'],
+        ];
+
+        foreach ($patients as $p) {
+            User::updateOrCreate(
+                ['email' => $p['email']], // unique
+                [
+                    'name'     => $p['name'],
+                    'password' => Hash::make('password'),
+                    'role'     => 'patient',
+                    'status'   => 'active',
+                ]
+            );
+        }
     }
 }
