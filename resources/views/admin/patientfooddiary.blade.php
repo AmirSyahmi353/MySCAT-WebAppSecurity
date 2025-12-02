@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <section class="fooddiary-summary"
@@ -6,22 +6,26 @@ style="background: url('{{ asset('assets/img/fooddiary/bg.jpg') }}') center/cove
        min-height: 100vh; padding: 60px 0;">
 
 <div class="container bg-white p-4 rounded shadow">
-    <h2 class="text-center mb-4">My Food Diary Summary</h2>
 
-    @if(!$diaries)
+    <h2 class="text-center mb-4">Patient Food Diary Summary</h2>
+    <h5 class="text-center text-muted mb-4">{{ $patient->name }}</h5>
+
+    @if(!$diary)
         <div class="alert alert-warning text-center">
             No diary entries found.
         </div>
     @else
-        @foreach($diaries->entries as $day => $meals)
+        @foreach($diary->entries as $day => $meals)
             <div class="card mb-4">
                 <div class="card-header bg-info text-white fw-bold">
                     {{ strtoupper($day) }}
                 </div>
 
                 <div class="card-body">
+
                     @if(count($meals) === 0)
                         <p class="text-muted">No meals logged.</p>
+
                     @else
                         <table class="table table-bordered">
                             <thead>
@@ -37,14 +41,16 @@ style="background: url('{{ asset('assets/img/fooddiary/bg.jpg') }}') center/cove
                             <tbody>
                                 @foreach($meals as $meal)
                                     <tr>
-                                        <td>{{ $meal['meal'] }}</td>
-                                        <td>{{ $meal['time'] }}</td>
-                                        <td>{{ $meal['food'] }}</td>
-                                        <td>{{ $meal['portion'] }}</td>
-                                        <td>{{ $meal['drink'] }}</td>
+                                        {{-- SAFE ARRAY ACCESS (fixes your error) --}}
+                                        <td>{{ $meal['meal'] ?? 'N/A' }}</td>
+                                        <td>{{ $meal['time'] ?? 'N/A' }}</td>
+                                        <td>{{ $meal['food'] ?? 'N/A' }}</td>
+                                        <td>{{ $meal['portion'] ?? 'N/A' }}</td>
+                                        <td>{{ $meal['drink'] ?? 'N/A' }}</td>
                                         <td>
-                                            @if(!empty($meal['image']))
-                                                <img src="{{ asset($meal['image']) }}" style="width:70px; height:70px; border-radius:8px;">
+                                            @if(!empty($meal['image'] ?? null))
+                                                <img src="{{ asset($meal['image']) }}"
+                                                     style="width:70px; height:70px; border-radius:8px;">
                                             @else
                                                 -
                                             @endif
@@ -54,10 +60,15 @@ style="background: url('{{ asset('assets/img/fooddiary/bg.jpg') }}') center/cove
                             </tbody>
                         </table>
                     @endif
+
                 </div>
             </div>
         @endforeach
     @endif
+
+    <div class="text-center mt-3">
+        <a href="{{ url()->previous() }}" class="btn btn-secondary px-4">Back</a>
+    </div>
 
 </div>
 

@@ -40,11 +40,10 @@
     </form>
 
     {{-- Patients Table --}}
-    <div class="card shadow-sm rounded-4 overflow-hidden">
-        <div class="table-responsive">
-            <table class="table custom-table mb-0">
-                <thead class="table-light">
-                    <tr>
+    <div class="card shadow-sm rounded-2 overflow-hidden">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                 <tr class="small text-uppercase text-muted">
                         <th>Name</th>
                         <th>ID</th>
                         <th>Email address</th>

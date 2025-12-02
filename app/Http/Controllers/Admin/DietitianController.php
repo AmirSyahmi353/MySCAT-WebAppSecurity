@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Models\Result;
+use App\Models\FoodDiary;
 
 class DietitianController extends Controller
 {
@@ -74,4 +76,36 @@ class DietitianController extends Controller
         return redirect()->route('admin.dietitianindex')
                          ->with('success', 'Dietitian removed.');
     }
+
+    public function questionnaire($id)
+{
+    $patient = User::findOrFail($id);
+
+    $questionnaire = Result::where('user_id', $id)->first();
+
+    return view('admin.patientquestionnaire', compact('patient', 'questionnaire'));
+}
+
+public function FoodDiary($id)
+{
+    $patient = User::findOrFail($id);
+
+    // Get the single diary document for this patient (or null)
+    $diary = FoodDiary::where('user_id', $id)->first();
+
+    // Normalize entries to a collection so blade can call ->isEmpty()
+    $entries = collect();
+
+    if ($diary && !empty($diary->entries)) {
+        // If entries is an associative array (day1 => [...]), convert to collection
+        $entries = collect($diary->entries);
+    }
+
+    return view('admin.patientfooddiary', [
+        'patient' => $patient,
+        'diary'   => $diary,
+        'entries' => $entries,
+    ]);
+}
+
 }

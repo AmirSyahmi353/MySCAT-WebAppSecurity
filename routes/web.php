@@ -151,19 +151,20 @@ Route::middleware('auth')->prefix('food-diary')->name('food-diary.')->group(func
     // Alias: allow index to behave same as view
     Route::get('/', [FoodDiaryController::class, 'view'])
         ->name('index');
+
 });
 
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
+// Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Admin login views & processing
-    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
+//     // Admin login views & processing
+//     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
+//     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
 
-    // Admin logout
-    Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logout');
-});
+//     // Admin logout
+//     Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+// });
 
 
 /*
@@ -213,6 +214,15 @@ Route::middleware(['auth'])
         // DELETE
         Route::delete('/dietitians/{id}', [AdminDietitianController::class, 'destroy'])
             ->name('dietitians.destroy');
+
+        Route::get('/admin/patients/{id}/questionnaire', [AdminDietitianController::class, 'questionnaire'])
+            ->name('patientquestionnaire');
+
+        Route::get('/food-diary/{id}', [AdminDietitianController::class, 'fooddiary'])
+            ->name('patientfooddiary');
+
+
+
     });
 
 

@@ -17,14 +17,19 @@
         <h2 class="fw-bold text-dark m-0" style="text-transform: capitalize;">
             {{ $patient->name }}
         </h2>
-
+        @php
+            // Anything NOT 'Normal' becomes 'High'
+            $level = $patient->level === 'Normal' ? 'Normal' : 'High';
+        @endphp
         <span class="px-3 py-1 rounded-pill text-capitalize fw-semibold
-            @if($patient->status === 'Normal') text-success bg-success bg-opacity-10
-            @elseif($patient->status === 'Moderate') text-warning bg-warning bg-opacity-10
-            @else text-danger bg-danger bg-opacity-10
+            @if($level === 'Normal')
+                text-success bg-success bg-opacity-10
+            @else
+                text-danger bg-danger bg-opacity-10
             @endif">
-            {{ $patient->status ?? 'Unknown' }}
+        {{ $level }}
         </span>
+
     </div>
 
     {{-- Patient Information --}}
@@ -55,7 +60,7 @@
 
         {{-- Questionnaire --}}
         <div class="col-md-4">
-            <a href="#"
+            <a href="{{ route('admin.patientquestionnaire', $patient->id) }}"
                class="btn btn-primary w-100 py-4 rounded-4 shadow-sm d-flex flex-column align-items-center">
                 <i class="fa-solid fa-clipboard-list fs-2 mb-2"></i>
                 <span class="fw-semibold">Questionnaire</span>
@@ -64,7 +69,7 @@
 
         {{-- Food Diary --}}
         <div class="col-md-4">
-            <a href="#"
+            <a href="{{ route('admin.patientfooddiary', $patient->id) }}"
                class="btn btn-primary w-100 py-4 rounded-4 shadow-sm d-flex flex-column align-items-center">
                 <i class="fa-solid fa-utensils fs-2 mb-2"></i>
                 <span class="fw-semibold">Food Diary</span>

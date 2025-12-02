@@ -9,9 +9,5 @@ class FoodDiary extends Model
     protected $collection = 'food_diaries';
 
     protected $fillable = ['user_id', 'entries', 'submitted_at'];
-    // protected $fillable = ['user_id','day','date','time','meal_type','drink','food_items'];
 
-    // protected $casts = [
-    //     'food_items' => 'array',
-    // ];
 }
