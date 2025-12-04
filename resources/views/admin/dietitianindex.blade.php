@@ -36,10 +36,10 @@
                             <td>{{ $d->created_at->format('d M Y') }}</td>
 
                             <td>
-                                <a href="{{ route('admin.dietitians.edit', $d->_id) }}"
+                                {{-- <a href="{{ route('admin.dietitians.edit', $d->_id) }}"
                                    class="btn btn-sm btn-outline-primary">
                                     Edit
-                                </a>
+                                </a> --}}
 
                                 <form action="{{ route('admin.dietitians.destroy', $d->_id) }}"
                                       method="POST"

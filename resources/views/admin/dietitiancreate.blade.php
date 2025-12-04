@@ -74,7 +74,7 @@
             </div>
 
             {{-- Status --}}
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label class="form-label fw-semibold">Status</label>
                 <select name="status" class="form-select @error('status') is-invalid @enderror">
                     <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
@@ -84,7 +84,7 @@
                 @error('status')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
+            </div> --}}
 
             {{-- Role --}}
             <div class="mb-3">
