@@ -60,4 +60,17 @@ class LoginController extends Controller
             default     => redirect()->route('home'),
         };
     }
+
+    public function logout()
+{
+    auth()->logout();   // Log the user out
+
+    // Invalidate session
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    // Redirect to login page
+    return redirect()->route('login')->with('success', 'You have been logged out.');
+}
+
 }
