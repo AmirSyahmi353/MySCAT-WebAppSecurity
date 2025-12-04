@@ -6,7 +6,7 @@
   <title>Login - MySCAT</title>
   <link href="{{ asset('assets/css/theme.css') }}" rel="stylesheet">
 </head>
-<body class="auth-body" style="background: url('{{ asset('assets/img/auth/authh.png') }}') no-repeat center/cover;">
+<body class="auth-body" style="background: url('{{ asset('assets/img/auth/mysca.png') }}') no-repeat center/cover;">
 
   <div class="auth-card">
     <h2>Sign In</h2>

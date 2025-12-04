@@ -102,4 +102,26 @@ class QuestionnaireController extends Controller
             'message'
         ));
     }
+
+    public function showResult() {
+    $result = \App\Models\Result::where('user_id', Auth::id())
+                ->latest()
+                ->first();
+
+    if (!$result) {
+        return redirect()->route('questionnaire.intro')
+                         ->with('error', 'No result found. Please complete the questionnaire.');
+    }
+
+    return view('questionnaire.result', [
+        'totalScore' => $result->totalScore,
+        'maxScore'   => $result->maxScore,
+        'level'      => $result->level,
+        'color'      => $result->level === 'Normal' ? '#c7ceea' : '#ff9aa2',
+        'message'    => $result->level === 'Normal'
+                         ? "Great! Your sugar craving level is NORMAL 🌸"
+                         : "Oops! Your sugar craving level is HIGH 😮",
+    ]);
+}
+
 }
