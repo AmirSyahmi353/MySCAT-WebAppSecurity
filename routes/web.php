@@ -178,7 +178,10 @@ Route::middleware(['auth'])
     ->group(function () {
 
         // Dashboard
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', function () {
+            return redirect()->route('admin.dietitianindex');  // List of User page
+        })->name('dashboard');
+
 
         // Patients
         Route::get('/patients', [PatientController::class, 'index'])->name('patientindex');

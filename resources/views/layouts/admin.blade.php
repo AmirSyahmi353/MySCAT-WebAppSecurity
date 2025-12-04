@@ -31,43 +31,51 @@
 <div id="sidebar" class="sidebar d-flex flex-column p-3">
 
     <h4 class="sidebar-logo mb-4">
-        <a href="/admin" class="sidebar-logo-text text-decoration-none">
+        <a href="{{ route('admin.dietitianindex') }}" class="sidebar-logo-text text-decoration-none">
             <i class="bi bi-clipboard-heart-fill me-2"></i> MySCAT
         </a>
     </h4>
 
-    <!-- Menu -->
+@php
+    $role = Auth::user()->role;
+@endphp
+
 <ul class="nav nav-pills flex-column mb-auto">
 
-    <li class="nav-item">
-        <a href="{{ route('admin.dashboard') }}" class="nav-link">
-            <i class="bi bi-house-door-fill me-2"></i> Dashboard
-        </a>
-    </li>
-
-    <li>
-        <a href="{{ route('admin.patientindex') }}" class="nav-link">
-            <i class="bi bi-people-fill me-2"></i> Patients
-        </a>
-    </li>
-
-    {{-- ADMIN ONLY SECTION --}}
-
-    @if ($role ==='admin')
-        <li>
-            <a href="{{ route('admin.dietitianindex') }}" class="nav-link">
-                <i class="bi bi-person-badge-fill me-2"></i> List of User
+    {{-- DIETITIAN ONLY: DASHBOARD & PATIENT--}}
+    @if ($role === 'dietitian')
+        <li class="nav-item">
+            <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                <i class="bi bi-house-door-fill me-2"></i> Dashboard
             </a>
         </li>
         <li>
-            <a href="{{ route('admin.dietitians.create') }}" class="nav-link">
-                <i class="bi bi-person-badge-fill me-2"></i> Register User
+            <a href="{{ route('admin.patientindex') }}" class="nav-link">
+                <i class="bi bi-people-fill me-2"></i> Patients
             </a>
         </li>
     @endif
 
 
+
+    {{-- ADMIN ONLY: USER MANAGEMENT --}}
+    @if ($role === 'admin')
+        <li>
+            <a href="{{ route('admin.dietitianindex') }}" class="nav-link">
+                <i class="bi bi-person-badge-fill me-2"></i> List of User
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('admin.dietitians.create') }}" class="nav-link">
+                <i class="bi bi-person-plus-fill me-2"></i> Register User
+            </a>
+        </li>
+    @endif
+
 </ul>
+
+
 
 
 

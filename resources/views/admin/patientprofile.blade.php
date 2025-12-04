@@ -101,6 +101,7 @@
             $bmi_percent = (($bmi_for_ui - 10) / 30) * 100;
         @endphp
 
+
         <hr class="my-4">
 
         {{-- BMI METER --}}

@@ -34,7 +34,7 @@ class AdminAuthController extends Controller
         // Log in admin manually
         auth()->login($admin);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.dietitianindex');
     }
 
     public function logout()

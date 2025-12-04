@@ -11,10 +11,15 @@ class DashboardController extends Controller
      * Display the admin dashboard.
      */
     public function index()
-    {
-        // Count all patients using role from users collection
-        $totalPatients = User::where('role', 'patient')->count();
-
-        return view('admin.dashboard', compact('totalPatients'));
+{
+    // Prevent ADMIN from accessing dashboard
+    if (auth()->user()->role === 'admin') {
+        return redirect()->route('admin.dietitianindex');
     }
+
+    // Count patients (dietitian)
+    $totalPatients = User::where('role', 'patient')->count();
+
+    return view('admin.dashboard', compact('totalPatients'));
+}
 }
