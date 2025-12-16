@@ -56,7 +56,7 @@
 </section>
 
 <!-- About MySCAT Section -->
-    <section id="about-myscat" class="about-section py-5" style="background: url('{{ asset('assets/img/hero/about.png') }}') no-repeat center/cover;">
+    <section id="about-myscat" class="about-section py-5">
       <div class="container d-flex align-items-center justify-content-between flex-wrap">
 
         <!-- Left Content (Text) -->
