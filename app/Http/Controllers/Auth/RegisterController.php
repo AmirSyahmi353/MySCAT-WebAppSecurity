@@ -28,6 +28,8 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role'     => 'patient',
+            'status'   => 'active',
         ]);
 
         Auth::login($user);

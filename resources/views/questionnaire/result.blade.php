@@ -1,43 +1,72 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="p-5 rounded shadow text-center" style="background-color: #ffe4e1; max-width: 600px; width: 100%;">
+<section class="d-flex justify-content-center align-items-center"
+         style="
+            min-height: 80vh;
+            background: url('{{ asset('assets/img/auth/mysca.png') }}') no-repeat center/cover;
+         ">
 
-        <h2 class="mb-4 fw-bold">Your Craving Results</h2>
+    <section class="p-5 rounded-4 shadow-sm text-center"
+             style="
+                background-color: rgba(248, 250, 250, 0.95);
+                max-width: 600px;
+                width: 100%;
+                border: 1px solid #E3ECEC;
+             ">
+
+        <h2 class="mb-4 fw-bold" style="color:#2F5755;">
+            Your Craving Results
+        </h2>
 
         <!-- Total Score -->
-        <p class="fs-4">
-            <strong>Total Score:</strong> {{ $totalScore }}/{{ $maxScore }}
+        <p class="fs-5 mb-2 text-muted">
+            Total Score
+        </p>
+        <p class="fs-4 fw-semibold mb-4" style="color:#2F5755;">
+            {{ $totalScore }} / {{ $maxScore }}
         </p>
 
         <!-- Craving Level -->
-        <div class="p-3 mb-4 rounded fw-bold fs-5" style="background-color: {{ $color }};">
+        <div class="py-3 px-4 mb-4 rounded-3 fw-semibold fs-5"
+             style="background-color:#E6F2F1; color:#2F5755;">
             {{ $level }} Craving
         </div>
 
         <!-- Message -->
-        <p class="fs-5">{{ $message }}</p>
+        <p class="fs-6 text-secondary mb-4">
+            {{ $message }}
+        </p>
 
-        <!-- Buttons -->
-        <div class="mt-4 d-flex flex-column gap-3">
+        <!-- Actions -->
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
 
             <!-- Take Again -->
             <a href="{{ route('questionnaire.intro') }}"
-               class="btn"
-               style="background-color: #ffdac1; border:none; padding:10px 25px; border-radius:15px;">
+               class="btn px-4 py-2"
+               style="
+                    border:1px solid #2F5755;
+                    color:#2F5755;
+                    background-color:transparent;
+                    border-radius:10px;
+               ">
                 Take Again
             </a>
 
-            <!-- ⭐ View Food Diary Log -->
+            <!-- View Food Diary -->
             <a href="{{ route('food-diary.view') }}"
-               class="btn"
-               style="background-color:#b5ead7; border:none; padding:10px 25px; border-radius:15px;">
+               class="btn px-4 py-2"
+               style="
+                    background-color:#2F5755;
+                    color:#fff;
+                    border-radius:10px;
+               ">
                 View Food Diary Log
             </a>
 
         </div>
 
-    </div>
-</div>
+    </section>
+
+</section>
 @endsection

@@ -415,16 +415,16 @@
 
 
 
-.home-hero {
-  padding-top: 100px;
-  min-height: 100vh; 
-  display: flex;
-  align-items: center; /* Vertically center content */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 100px 0; /* adds spacing above and below */
-}
+    .home-hero {
+      padding-top: 100px;
+      min-height: 100vh; 
+      display: flex;
+      align-items: center; /* Vertically center content */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 100px 0; 
+    }
 
 .hero-inner {
     display: flex;

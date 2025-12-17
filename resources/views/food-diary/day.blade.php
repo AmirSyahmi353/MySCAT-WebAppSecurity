@@ -1,4 +1,115 @@
 @extends('layouts.app')
+@section('styles')
+<style>
+    .food-diary-section {
+        min-height: 100vh;
+        padding: 60px 20px;
+        background: url('{{ asset('assets/img/fooddiary/bg.jpg') }}') no-repeat center/cover;
+    }
+
+    .page-title {
+        text-align: center;
+        font-weight: 700;
+        color: #2F5755;
+        margin-bottom: 30px;
+    }
+
+    .accordion {
+        background: rgba(248, 250, 250, 0.95);
+        border: 1px solid #E3ECEC;
+        border-radius: 16px;
+        margin-bottom: 25px;
+        overflow: hidden;
+    }
+
+    .accordion-header {
+        padding: 15px 20px;
+        background-color: #E6F2F1;
+        cursor: pointer;
+    }
+
+    .accordion-header h4 {
+        margin: 0;
+        font-weight: 600;
+        color: #2F5755;
+    }
+
+    .accordion-body {
+        padding: 20px;
+    }
+
+    .table-food th {
+        background-color: #F8FAFA;
+        color: #2F5755;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .table-food td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .meal-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid #E3ECEC;
+    }
+
+    .btn-add,
+    .btn-save-all,
+    .btn-view-diary {
+        background-color: #2F5755;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: 500;
+    }
+
+    .btn-add {
+        margin-top: 15px;
+    }
+
+    .btn-view-diary {
+        background-color: transparent;
+        color: #2F5755;
+        border: 1px solid #2F5755;
+    }
+
+    .btn-edit {
+        border: 1px solid #2F5755;
+        color: #2F5755;
+        background: transparent;
+        border-radius: 8px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+    }
+
+    .btn-delete {
+        background-color: #f1f5f5;
+        color: #555;
+        border: none;
+        border-radius: 8px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+        margin-left: 5px;
+    }
+
+    /* Modal */
+    .modal-content {
+        border-radius: 16px;
+        border: 1px solid #E3ECEC;
+    }
+
+    .modal-title {
+        color: #2F5755;
+        font-weight: 600;
+    }
+</style>
+@endsection
 
 @section('content')
 <section class="food-diary-section">
@@ -78,13 +189,13 @@
     <form action="{{ route('food-diary.submitFinal') }}" method="POST">
         @csrf
         <button type="submit" class="btn-save-all">
-            💾 Save All to MongoDB
+            Save All
         </button>
     </form>
 
     {{-- View Diary Log --}}
     <a href="{{ route('food-diary.index') }}" class="btn-view-diary">
-        📄 View Diary Log
+        View Diary Log
     </a>
 
 </div>
