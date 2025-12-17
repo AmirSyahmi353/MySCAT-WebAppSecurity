@@ -7,8 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MySCAT: Sugar Craving Assessment Tool</title>
 
-  <!-- Favicons -->
-  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicons/favicon.png') }}">
+  {{-- Favicons --}}
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicons/favicons.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicons/favicons.png') }}">
+  <link rel="apple-touch-icon" href="{{ asset('assets/img/favicons/favicons.png') }}">
 
   <!-- Styles -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">

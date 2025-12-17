@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="fooddiary-hero" style="background: url('{{ asset('assets/img/fooddiary/bg.png') }}') no-repeat center/cover; min-height:100vh; padding:60px 0;"> <!-- Background wrapper -->
+<section class="fooddiary-hero" style="background: url('{{ asset('assets/img/auth/mysca.png') }}') no-repeat center/cover;"> <!-- Background wrapper -->
     <div class="fooddiary-box"> <!-- Transparent card like questionnaire -->
 
         <h2 class="mb-4 fw-bold text-center">Food Diary Instructions 🍽️</h2>
@@ -26,19 +26,25 @@
         <p class="text-muted mb-3">These images help you estimate your portion size better:</p>
 
         <div class="row text-center portion-row">
-            <div class="col-4">
-                <p class="fw-bold">Full Plate</p>
-                <img src="{{ asset('images/portion/full_plate.jpg') }}" class="food-portion-img" alt="Full Plate">
-            </div>
-            <div class="col-4">
-                <p class="fw-bold">Half Plate</p>
-                <img src="{{ asset('images/portion/half_plate.jpg') }}" class="food-portion-img" alt="Half Plate">
-            </div>
-            <div class="col-4">
-                <p class="fw-bold">Quarter Plate</p>
-                <img src="{{ asset('images/portion/quarter_plate.jpg') }}" class="food-portion-img" alt="Quarter Plate">
-            </div>
-        </div>
+    <div class="col-4">
+        <p class="fw-bold">Full Plate</p>
+        <img src="{{ asset('assets/img/fooddiary/1.png') }}"
+             class="food-portion-img" alt="Full Plate">
+    </div>
+
+    <div class="col-4">
+        <p class="fw-bold">Half Plate</p>
+        <img src="{{ asset('assets/img/fooddiary/2.png') }}"
+             class="food-portion-img" alt="Half Plate">
+    </div>
+
+    <div class="col-4">
+        <p class="fw-bold">Quarter Plate</p>
+        <img src="{{ asset('assets/img/fooddiary/3.png') }}"
+             class="food-portion-img" alt="Quarter Plate">
+    </div>
+</div>
+
 
         <p class="mt-4">✅ You can view, edit, or delete your entries before submitting all 3 days.</p>
 
