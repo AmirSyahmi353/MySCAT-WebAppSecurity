@@ -29,7 +29,6 @@ class DietitianController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'role' => 'required',
-            'status' => 'required'
         ]);
         // tunjuk validation kat depan
 
@@ -38,7 +37,6 @@ class DietitianController extends Controller
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => $request->role,
-            'status'   => $request->status,
         ]);
 
         return redirect()->route('admin.dietitianindex')
