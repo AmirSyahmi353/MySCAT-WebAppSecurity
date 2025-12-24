@@ -30,12 +30,12 @@ class ResultSeeder extends Seeder
             $answerValue = $isNormal ? "1" : "3";
 
             Result::updateOrCreate(
-                ['user_id' => $patient->_id], // Prevent duplicates
+                ['user_id' => $patient->id], // Prevent duplicates
                 [
                     'totalScore' => $score,
-                    'maxScore'   => 150,
-                    'level'      => $level,
-                    'answers'    => array_fill_keys(range(1, 30), $answerValue),
+                    'maxScore' => 150,
+                    'level' => $level,
+                    'answers' => array_fill_keys(range(1, 30), $answerValue),
                 ]
             );
 

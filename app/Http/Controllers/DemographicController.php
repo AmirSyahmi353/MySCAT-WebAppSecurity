@@ -58,22 +58,22 @@ class DemographicController extends Controller
 
         // Create demographic record
         $demographics = new Demographic();
-        $demographics->user_id         = Auth::id();
-        $demographics->full_name  = ucwords(strtolower($request->full_name));
-        $demographics->age        = $request->age;
-        $demographics->gender     = ucfirst(strtolower($request->gender));
-        $demographics->race       = ucwords(strtolower($request->race));
-        $demographics->postcode   = $request->postcode;
+        $demographics->user_id = Auth::id();
+        $demographics->full_name = ucwords(strtolower($request->full_name));
+        $demographics->age = $request->age;
+        $demographics->gender = ucfirst(strtolower($request->gender));
+        $demographics->race = ucwords(strtolower($request->race));
+        $demographics->postcode = $request->postcode;
         $demographics->occupation = ucwords(strtolower($request->occupation));
-        $demographics->education  = ucwords(strtolower($request->education));
-        $demographics->email      = strtolower($request->email);
-        $demographics->height_cm  = $request->height;
-        $demographics->weight_kg  = $request->weight;
-        $demographics->income     = $request->income;
+        $demographics->education = ucwords(strtolower($request->education));
+        $demographics->email = strtolower($request->email);
+        $demographics->height_cm = $request->height;
+        $demographics->weight_kg = $request->weight;
+        $demographics->income = $request->income;
         $demographics->save();
 
-        return redirect()->route('demographics.show', $demographics->_id)
-                 ->with('success', 'Demographic information saved successfully!');
+        return redirect()->route('demographics.show', $demographics->id)
+            ->with('success', 'Demographic information saved successfully!');
     }
 
     /**
@@ -85,7 +85,7 @@ class DemographicController extends Controller
 
         if (!$demographics) {
             return redirect()->route('demographics.create')
-                            ->with('info', 'Please fill in your demographic information first.');
+                ->with('info', 'Please fill in your demographic information first.');
         }
 
         return view('demographics.show', compact('demographics'));
@@ -94,7 +94,8 @@ class DemographicController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit() {
+    public function edit()
+    {
         $demographics = Auth::user()->demographic; // get current user's data
         return view('demographics.edit', compact('demographics'));
     }
@@ -102,16 +103,16 @@ class DemographicController extends Controller
     /**
      * Update the specified resource in storage.
      */
-   public function update(Request $request, $id)
-{
-    $demographic = Auth::user()->demographic;
+    public function update(Request $request, $id)
+    {
+        $demographic = Auth::user()->demographic;
 
-    if (!$demographic) {
-        return redirect()->route('demographics.create')
-                         ->with('error', 'No demographic record found.');
-    }
+        if (!$demographic) {
+            return redirect()->route('demographics.create')
+                ->with('error', 'No demographic record found.');
+        }
 
-    $validated = $request->validate([
+        $validated = $request->validate([
             'full_name' => 'required|string|max:255',
             'age' => 'required|numeric',
             'gender' => 'required|string|max:50',
@@ -124,17 +125,17 @@ class DemographicController extends Controller
             'income' => 'required|string|max:20',
         ]);
 
-    
-    $validated['full_name']  = ucwords(strtolower($validated['full_name']));
-    $validated['gender']     = ucfirst(strtolower($validated['gender']));
-    $validated['race']       = ucwords(strtolower($validated['race']));
-    $validated['occupation'] = ucwords(strtolower($validated['occupation']));
-    $validated['education']  = ucwords(strtolower($validated['education']));
-    $demographic->update($validated);
 
-    return redirect()->route('demographics.show', Auth::id())
-                     ->with('success', 'Profile updated successfully!');
-}
+        $validated['full_name'] = ucwords(strtolower($validated['full_name']));
+        $validated['gender'] = ucfirst(strtolower($validated['gender']));
+        $validated['race'] = ucwords(strtolower($validated['race']));
+        $validated['occupation'] = ucwords(strtolower($validated['occupation']));
+        $validated['education'] = ucwords(strtolower($validated['education']));
+        $demographic->update($validated);
+
+        return redirect()->route('demographics.show', Auth::id())
+            ->with('success', 'Profile updated successfully!');
+    }
 
 
     /**

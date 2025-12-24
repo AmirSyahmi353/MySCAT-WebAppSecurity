@@ -10,12 +10,17 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // RBAC Check: Only Dietitian can view this dashboard
+        if (auth()->user()->role !== 'dietitian') {
+            abort(403, 'Unauthorized access.');
+        }
+
         // Count all patients
         $totalPatients = User::where('role', 'patient')->count();
 
         // Correct craving analytics based on totalScore
         $normalCount = Result::where('totalScore', '<=', 45)->count();
-        $highCount   = Result::where('totalScore', '>=', 46)->count();
+        $highCount = Result::where('totalScore', '>=', 46)->count();
 
         // Build recent patients list (latest 5 users)
         $patients = User::where('role', 'patient')
@@ -26,7 +31,7 @@ class DashboardController extends Controller
         // Attach latest result and demographic for each patient to make blade simple
         $recentPatients = $patients->map(function ($p) {
             // attach latest result (or null)
-            $p->result = Result::where('user_id', $p->_id)->orderByDesc('created_at')->first();
+            $p->result = Result::where('user_id', $p->id)->orderByDesc('created_at')->first();
 
             // demographic relationship may already exist if defined on User model
             // If not loaded, try to access (it will lazy load)

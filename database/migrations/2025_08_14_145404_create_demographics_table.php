@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,16 +12,18 @@ return new class extends Migration
     {
         Schema::create('demographics', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('age');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('full_name');
+            $table->integer('age');
             $table->string('gender');
             $table->string('race');
             $table->string('postcode');
-            $table->string('work');
-            $table->string('education_level');
+            $table->string('occupation');
+            $table->string('education');
             $table->string('email');
-            $table->decimal('height', 5, 2);
-            $table->decimal('weight', 5, 2);
+            $table->decimal('height_cm', 5, 2);
+            $table->decimal('weight_kg', 5, 2);
+            $table->string('income')->nullable();
             $table->timestamps();
         });
     }

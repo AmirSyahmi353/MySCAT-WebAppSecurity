@@ -7,7 +7,7 @@
   <title>Register - MySCAT</title>
   <link href="{{ asset('assets/css/theme.css') }}" rel="stylesheet">
 </head>
-<body class="auth-body"  style="background: url('{{ asset('assets/img/auth/mysca.png') }}') no-repeat center/cover;">
+<body class="auth-body" style="background: url('{{ asset('assets/img/auth/mysca.png') }}') no-repeat center/cover;">
 
   <div class="auth-card">
     <h2>Create Account</h2>
@@ -36,10 +36,46 @@
 
     <form method="POST" action="{{ route('register') }}">
       @csrf
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="email" name="email" placeholder="Email Address" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
+
+      <!-- Full Name -->
+      <input
+        type="text"
+        name="name"
+        placeholder="Full Name"
+        required
+        minlength="3"
+        maxlength="100"
+        pattern="[A-Za-z\s]+"
+        title="Name must contain letters only"
+      >
+
+      <!-- Email -->
+      <input
+        type="email"
+        name="email"
+        placeholder="Email Address"
+        required
+        maxlength="255"
+      >
+
+      <!-- Password -->
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+        minlength="8"
+        title="Password must be at least 8 characters"
+      >
+
+      <!-- Confirm Password -->
+      <input
+        type="password"
+        name="password_confirmation"
+        placeholder="Confirm Password"
+        required
+        minlength="8"
+      >
 
       <button type="submit">Sign Up</button>
 

@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use MongoDB\Laravel\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public function demographic()
     {
-        return $this->hasOne(\App\Models\Demographic::class, 'user_id', '_id');
+        return $this->hasOne(\App\Models\Demographic::class);
     }
 
     public function results()

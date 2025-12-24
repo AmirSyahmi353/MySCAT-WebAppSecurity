@@ -25,7 +25,7 @@ class DietitianController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'  => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'role' => 'required',
@@ -33,14 +33,14 @@ class DietitianController extends Controller
         // tunjuk validation kat depan
 
         User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
+            'name' => $request->name,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role'     => $request->role,
+            'role' => $request->role,
         ]);
 
         return redirect()->route('admin.dietitianindex')
-                         ->with('success', 'Dietitian registered successfully.');
+            ->with('success', 'Dietitian registered successfully.');
     }
 
     public function edit($id)
@@ -54,17 +54,17 @@ class DietitianController extends Controller
         $dietitian = User::findOrFail($id);
 
         $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => "required|email|unique:users,email,{$id},_id",
+            'name' => 'required|string|max:255',
+            'email' => "required|email|unique:users,email,{$id},id",
         ]);
 
         $dietitian->update([
-            'name'  => $request->name,
+            'name' => $request->name,
             'email' => $request->email,
         ]);
 
         return redirect()->route('admin.dietitianindex')
-                         ->with('success', 'Dietitian updated successfully.');
+            ->with('success', 'Dietitian updated successfully.');
     }
 
     public function destroy($id)
@@ -72,38 +72,38 @@ class DietitianController extends Controller
         User::findOrFail($id)->delete();
 
         return redirect()->route('admin.dietitianindex')
-                         ->with('success', 'Dietitian removed.');
+            ->with('success', 'Dietitian removed.');
     }
 
     public function questionnaire($id)
-{
-    $patient = User::findOrFail($id);
+    {
+        $patient = User::findOrFail($id);
 
-    $questionnaire = Result::where('user_id', $id)->first();
+        $questionnaire = Result::where('user_id', $id)->first();
 
-    return view('admin.patientquestionnaire', compact('patient', 'questionnaire'));
-}
-
-public function FoodDiary($id)
-{
-    $patient = User::findOrFail($id);
-
-    // Get the single diary document for this patient (or null)
-    $diary = FoodDiary::where('user_id', $id)->first();
-
-    // Normalize entries to a collection so blade can call ->isEmpty()
-    $entries = collect();
-
-    if ($diary && !empty($diary->entries)) {
-        // If entries is an associative array (day1 => [...]), convert to collection
-        $entries = collect($diary->entries);
+        return view('admin.patientquestionnaire', compact('patient', 'questionnaire'));
     }
 
-    return view('admin.patientfooddiary', [
-        'patient' => $patient,
-        'diary'   => $diary,
-        'entries' => $entries,
-    ]);
-}
+    public function FoodDiary($id)
+    {
+        $patient = User::findOrFail($id);
+
+        // Get the single diary document for this patient (or null)
+        $diary = FoodDiary::where('user_id', $id)->first();
+
+        // Normalize entries to a collection so blade can call ->isEmpty()
+        $entries = collect();
+
+        if ($diary && !empty($diary->entries)) {
+            // If entries is an associative array (day1 => [...]), convert to collection
+            $entries = collect($diary->entries);
+        }
+
+        return view('admin.patientfooddiary', [
+            'patient' => $patient,
+            'diary' => $diary,
+            'entries' => $entries,
+        ]);
+    }
 
 }

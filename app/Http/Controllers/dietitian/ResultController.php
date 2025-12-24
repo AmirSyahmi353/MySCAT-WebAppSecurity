@@ -13,6 +13,11 @@ class ResultController extends Controller
      */
     public function index()
     {
+        // RBAC Check: Only Dietitian can view all results
+        if (auth()->user()->role !== 'dietitian') {
+            abort(403, 'Unauthorized access.');
+        }
+
         // Load results + patient info
         $results = Result::with(['user'])
             ->orderBy('created_at', 'desc')
@@ -26,13 +31,13 @@ class ResultController extends Controller
      */
     public function show($id)
     {
-        // MongoDB uses string-based _id, so we must find by the string
-        $result = Result::with('user')->findOrFail($id);
-
-        // Decode JSON answers IF stored incorrectly as a JSON string
-        if (is_string($result->answers)) {
-            $result->answers = json_decode($result->answers, true);
+        // RBAC Check: Only Dietitian can view detailed result here
+        if (auth()->user()->role !== 'dietitian') {
+            abort(403, 'Unauthorized access.');
         }
+
+        // Find result by ID
+        $result = Result::with('user')->findOrFail($id);
 
         return view('dietitian.results.show', compact('result'));
     }

@@ -1,49 +1,44 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
 
-    {{-- Header --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h4 fw-semibold">Patients</h1>
-    </div>
-
-    {{-- Filter Form --}}
-    <form method="GET" action="{{ route('admin.patientindex') }}" class="row g-3 mb-4 align-items-center">
-        <!-- Search -->
-        <div class="col-auto">
-            <input
-                type="text"
-                name="search"
-                value="{{ request('search') }}"
-                placeholder="Search by name, email, or ID..."
-                class="form-control"
-            >
+        {{-- Header --}}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h4 fw-semibold">Patients</h1>
         </div>
 
-        <!-- Status Filter -->
-        <div class="col-auto">
-            <select name="status" class="form-select">
-                <option value="">Status</option>
-                <option value="Normal" {{ request('status') == 'Normal' ? 'selected' : '' }}>Normal</option>
-                <option value="High" {{ request('status') == 'High' ? 'selected' : '' }}>High</option>
-            </select>
-        </div>
+        {{-- Filter Form --}}
+        <form method="GET" action="{{ route('admin.patientindex') }}" class="row g-3 mb-4 align-items-center">
+            <!-- Search -->
+            <div class="col-auto">
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Search by name, email, or ID..." class="form-control">
+            </div>
 
-        <!-- Buttons -->
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </div>
-        <div class="col-auto">
-            <a href="{{ route('admin.patientindex') }}" class="btn btn-link">Reset</a>
-        </div>
-    </form>
+            <!-- Status Filter -->
+            <div class="col-auto">
+                <select name="status" class="form-select">
+                    <option value="">Status</option>
+                    <option value="Normal" {{ request('status') == 'Normal' ? 'selected' : '' }}>Normal</option>
+                    <option value="High" {{ request('status') == 'High' ? 'selected' : '' }}>High</option>
+                </select>
+            </div>
 
-    {{-- Patients Table --}}
-    <div class="card shadow-sm rounded-2 overflow-hidden">
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
-                 <tr class="small text-uppercase text-muted">
+            <!-- Buttons -->
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+            <div class="col-auto">
+                <a href="{{ route('admin.patientindex') }}" class="btn btn-link">Reset</a>
+            </div>
+        </form>
+
+        {{-- Patients Table --}}
+        <div class="card shadow-sm rounded-2 overflow-hidden">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr class="small text-uppercase text-muted">
                         <th>Name</th>
                         <th>ID</th>
                         <th>Email address</th>
@@ -58,14 +53,13 @@
                             $result = $p->result ?? null;
                         @endphp
 
-                        <tr class="clickable-row"
-                            data-href="{{ route('admin.patientshow', $p->_id) }}">
+                        <tr class="clickable-row" data-href="{{ route('admin.patientshow', $p->id) }}">
 
                             <td class="text-dark">
                                 {{ ucfirst($p->name) }}
                             </td>
 
-                            <td>{{ $p->_id }}</td>
+                            <td>{{ $p->id }}</td>
 
                             <td class="text-muted">{{ $p->email }}</td>
 
@@ -91,60 +85,61 @@
         </div>
     </div>
 
-</div>
+    </div>
 
-{{-- TABLE & ROW CSS --}}
-<style>
-/* Alternate row colors */
-.custom-table tbody tr:nth-child(odd) {
-    background-color: #f8f9fb;
-}
-.custom-table tbody tr:nth-child(even) {
-    background-color: #ffffff;
-}
+    {{-- TABLE & ROW CSS --}}
+    <style>
+        /* Alternate row colors */
+        .custom-table tbody tr:nth-child(odd) {
+            background-color: #f8f9fb;
+        }
 
-/* Hover effect */
-.custom-table tbody tr:hover {
-    background-color: #e9eef7 !important;
-    transition: 0.2s ease;
-}
+        .custom-table tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
 
-/* Clickable row */
-.clickable-row {
-    cursor: pointer;
-}
+        /* Hover effect */
+        .custom-table tbody tr:hover {
+            background-color: #e9eef7 !important;
+            transition: 0.2s ease;
+        }
 
-.custom-table th {
-    background: #f1f3f7;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #6c757d;
-}
+        /* Clickable row */
+        .clickable-row {
+            cursor: pointer;
+        }
 
-.custom-table td {
-    padding: 14px 16px;
-    vertical-align: middle;
-    font-size: 0.95rem;
-}
+        .custom-table th {
+            background: #f1f3f7;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6c757d;
+        }
 
-.custom-table td.fw-normal {
-    font-weight: 400 !important;
-}
-</style>
+        .custom-table td {
+            padding: 14px 16px;
+            vertical-align: middle;
+            font-size: 0.95rem;
+        }
 
-{{-- CLICKABLE ROW SCRIPT --}}
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".clickable-row").forEach(row => {
-        row.addEventListener("click", () => {
-            const url = row.dataset.href;
-            if (url && url !== "#") {
-                window.location.href = url;
-            }
+        .custom-table td.fw-normal {
+            font-weight: 400 !important;
+        }
+    </style>
+
+    {{-- CLICKABLE ROW SCRIPT --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".clickable-row").forEach(row => {
+                row.addEventListener("click", () => {
+                    const url = row.dataset.href;
+                    if (url && url !== "#") {
+                        window.location.href = url;
+                    }
+                });
+            });
         });
-    });
-});
-</script>
+    </script>
 
 @endsection

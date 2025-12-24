@@ -12,55 +12,62 @@ class PatientController extends Controller
     /**
      * Show list of all patients (with optional filters)
      */
- public function index()
-{
-    $query = User::where('role', 'patient');
+    public function index()
+    {
+        // ABAC/RBAC Check: Only Admin and Dietitian can view patient list
+        if (!in_array(auth()->user()->role, ['admin', 'dietitian'])) {
+            abort(403, 'Unauthorized access.');
+        }
 
-    // Search
-    if (request('search')) {
-        $search = request('search');
-        $query->where(function ($q) use ($search) {
-            $q->where('name', 'like', "%$search%")
-              ->orWhere('email', 'like', "%$search%")
-              ->orWhere('_id', 'like', "%$search%");
-        });
+        $query = User::where('role', 'patient');
+
+        // Search
+        if (request('search')) {
+            $search = request('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                    ->orWhere('email', 'like', "%$search%")
+                    ->orWhere('id', 'like', "%$search%");
+            });
+        }
+
+        // Status filter
+        if (request('status')) {
+            $status = request('status'); // Normal or High
+            $patientIds = Result::where('level', $status)->pluck('user_id');
+
+            $query->whereIn('id', $patientIds);
+        }
+
+        $patients = $query->orderBy('name')->get();
+
+        // 🔥 Attach latest result to each patient
+        foreach ($patients as $p) {
+            $latest = Result::where('user_id', $p->id)->latest()->first();
+
+            // Add dynamic fields (NOT stored in DB)
+            $p->result = $latest;
+            $p->score = $latest->totalScore ?? null;
+            $p->level = $latest->level ?? null;
+        }
+
+        return view('admin.patientindex', compact('patients'));
     }
-
-    // Status filter
-    if (request('status')) {
-        $status = request('status'); // Normal or High
-        $patientIds = Result::where('level', $status)->pluck('user_id');
-
-        $query->whereIn('_id', $patientIds);
-    }
-
-    $patients = $query->orderBy('name')->get();
-
-    // 🔥 Attach latest result to each patient
-    foreach ($patients as $p) {
-        $latest = Result::where('user_id', $p->_id)->latest()->first();
-
-        // Add dynamic fields (NOT stored in DB)
-        $p->result = $latest;
-        $p->score  = $latest->totalScore ?? null;
-        $p->level  = $latest->level ?? null;
-    }
-
-    return view('admin.patientindex', compact('patients'));
-}
-
-
-
 
     /**
      * Show details for one patient
      */
     public function show($id)
     {
-        // Load patient by MongoDB _id
-        $patient = User::where('_id', $id)
-                    ->where('role', 'patient')
-                    ->firstOrFail();
+        // ABAC/RBAC Check: Only Admin and Dietitian can view patient details
+        if (!in_array(auth()->user()->role, ['admin', 'dietitian'])) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        // Load patient by ID
+        $patient = User::where('id', $id)
+            ->where('role', 'patient')
+            ->firstOrFail();
 
         // Get demographic data
         $demographic = Demographic::where('user_id', $id)->first();
@@ -77,7 +84,12 @@ class PatientController extends Controller
 
     public function showProfile($id)
     {
-        $patient = User::where('_id', $id)->where('role', 'patient')->firstOrFail();
+        // ABAC/RBAC Check: Only Admin and Dietitian can view full profile
+        if (!in_array(auth()->user()->role, ['admin', 'dietitian'])) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        $patient = User::where('id', $id)->where('role', 'patient')->firstOrFail();
 
         $demographic = Demographic::where('user_id', $id)->firstOrFail();
 

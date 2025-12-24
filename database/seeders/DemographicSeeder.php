@@ -19,28 +19,28 @@ class DemographicSeeder extends Seeder
         }
 
         // Predefined demographic field sets
-        $races       = ['Malay', 'Chinese', 'Indian'];
+        $races = ['Malay', 'Chinese', 'Indian'];
         $occupations = ['Student', 'Engineer', 'Nurse', 'Teacher', 'Technician'];
-        $educations  = ['Diploma', 'Bachelor Degree', 'Master Degree'];
-        $income      = ['Below RM2000', 'RM2000 - RM4000', 'RM4000 - RM6000'];
+        $educations = ['Diploma', 'Bachelor Degree', 'Master Degree'];
+        $income = ['Below RM2000', 'RM2000 - RM4000', 'RM4000 - RM6000'];
 
         foreach ($patients as $i => $patient) {
 
             // Create or update demographic record for each patient
             Demographic::updateOrCreate(
-                ['user_id' => $patient->_id],   // Prevent duplicate demographic records
+                ['user_id' => $patient->id],   // Prevent duplicate demographic records
                 [
-                    'full_name'  => $patient->name,
-                    'age'        => rand(20, 50),
-                    'gender'     => $i % 2 === 0 ? 'Female' : 'Male',
-                    'race'       => $races[$i % count($races)],
-                    'postcode'   => (string) rand(40000, 60000),
+                    'full_name' => $patient->name,
+                    'age' => rand(20, 50),
+                    'gender' => $i % 2 === 0 ? 'Female' : 'Male',
+                    'race' => $races[$i % count($races)],
+                    'postcode' => (string) rand(40000, 60000),
                     'occupation' => $occupations[$i % count($occupations)],
-                    'education'  => $educations[$i % count($educations)],
-                    'email'      => $patient->email,
-                    'height_cm'  => rand(150, 180),
-                    'weight_kg'  => rand(45, 85),
-                    'income'     => $income[$i % count($income)],
+                    'education' => $educations[$i % count($educations)],
+                    'email' => $patient->email,
+                    'height_cm' => rand(150, 180),
+                    'weight_kg' => rand(45, 85),
+                    'income' => $income[$i % count($income)],
                 ]
             );
         }

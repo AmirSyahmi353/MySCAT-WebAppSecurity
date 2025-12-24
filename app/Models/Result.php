@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model; // ✅ use official MongoDB driver
+use Illuminate\Database\Eloquent\Model;
 
 class Result extends Model
 {
-    protected $connection = 'mongodb';  // ✅ same as FoodDiary
-    protected $collection = 'results';  // your own collection
-
     protected $fillable = [
         'user_id',
         'totalScore',
@@ -18,11 +15,11 @@ class Result extends Model
     ];
 
     protected $casts = [
-        'answers' => 'array', // ✅ so answers is stored properly
+        'answers' => 'array',
     ];
+
     public function user()
     {
-    return $this->belongsTo(User::class, 'user_id', '_id');
+        return $this->belongsTo(User::class);
     }
-
 }
