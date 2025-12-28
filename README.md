@@ -14,9 +14,9 @@ MALAYSIAN SUGAR CRAVING ASSESSMENT TOOL (MySCAT)
 MySCAT is a web-based application developed for assessing sugar craving levels among users. The system allows users to register, log in, complete assessments, and view results. Initially, the application focused on functionality but lacked robust security controls. This project enhances the existing web application by implementing essential web security mechanisms to protect user data and prevent common web attacks.
 
 <h2>Objectives of Security Enhancements</h2>
-1. To protect sensitive user and health-related data
-2. To prevent unauthorized access to system features
-3. To mitigate common web vulnerabilities such as XSS, CSRF, and SQL Injection
-4. To apply industry best practices in web application security
+1. To protect sensitive user and health-related data <br>
+2. To prevent unauthorized access to system features <br>
+3. To mitigate common web vulnerabilities such as XSS, CSRF, and SQL Injection <br>
+4. To apply industry best practices in web application security <br>
 
 <h2>Web Application Security Enhancements</h2>
