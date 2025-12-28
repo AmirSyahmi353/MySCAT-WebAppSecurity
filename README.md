@@ -1,11 +1,11 @@
 <h1>Web Application Security Enhancement Report</h1>
 
 <h2>Group Members</h2>
-ADHAM HARITH BIN ZAHARI (2213945)
-ADAM HARITH BIN ABDUL RAHIM (2218641)
-MUHAMMAD AMIR SYAHMI BIN ROHMAT ROSE (2215955)
-MUHAMMAD AMMAR BIN ZAKIRUDIN (2124953)
-MUHAMMAD IRFAN BIN FAIRUZ AZIM (2211915)
+1. ADHAM HARITH BIN ZAHARI (2213945)
+2. ADAM HARITH BIN ABDUL RAHIM (2218641)
+3. MUHAMMAD AMIR SYAHMI BIN ROHMAT ROSE (2215955)
+4. MUHAMMAD AMMAR BIN ZAKIRUDIN (2124953)
+5. MUHAMMAD IRFAN BIN FAIRUZ AZIM (2211915)
 
 <h2>Web Application Title</h2>
 MALAYSIAN SUGAR CRAVING ASSESSMENT TOOL (MySCAT)
@@ -14,8 +14,9 @@ MALAYSIAN SUGAR CRAVING ASSESSMENT TOOL (MySCAT)
 MySCAT is a web-based application developed for assessing sugar craving levels among users. The system allows users to register, log in, complete assessments, and view results. Initially, the application focused on functionality but lacked robust security controls. This project enhances the existing web application by implementing essential web security mechanisms to protect user data and prevent common web attacks.
 
 <h2>Objectives of Security Enhancements</h2>
-
 1. To protect sensitive user and health-related data
 2. To prevent unauthorized access to system features
 3. To mitigate common web vulnerabilities such as XSS, CSRF, and SQL Injection
 4. To apply industry best practices in web application security
+
+<h2>Web Application Security Enhancements</h2>
